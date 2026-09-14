@@ -33,9 +33,6 @@
 				},
 				{
 					"name": "derivedColumn2"
-				},
-				{
-					"name": "alterRow1"
 				}
 			],
 			"scriptLines": [
@@ -69,8 +66,7 @@
 				"          telefono = first(telefono)) ~> aggregate1",
 				"aggregate1 derive(edad = toInteger(edad),",
 				"          fecha_registro = toDate(fecha_registro)) ~> derivedColumn2",
-				"derivedColumn2 alterRow(upsertIf(true())) ~> alterRow1",
-				"alterRow1 sink(allowSchemaDrift: true,",
+				"derivedColumn2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          cliente_id as string,",
@@ -86,8 +82,7 @@
 				"     deletable:false,",
 				"     insertable:true,",
 				"     updateable:false,",
-				"     upsertable:true,",
-				"     keys:['cliente_id'],",
+				"     upsertable:false,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
