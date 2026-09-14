@@ -30,6 +30,9 @@
 				},
 				{
 					"name": "derivedColumn2"
+				},
+				{
+					"name": "alterRow1"
 				}
 			],
 			"scriptLines": [
@@ -55,8 +58,10 @@
 				"derivedColumn1 split(!isNull(producto_id) && !isNull(precio_lista) && !isNull(costo_unitario) ,",
 				"     disjoint: false) ~> split1@(validos, rechazados)",
 				"split1@validos derive(precio_texto = toDecimal(precio_texto),",
-				"          costo_texto = toDecimal(costo_texto)) ~> derivedColumn2",
-				"derivedColumn2 sink(allowSchemaDrift: true,",
+				"          costo_texto = toDecimal(costo_texto),",
+				"          proveedor = iifNull(proveedor, 'Sin Proveedor')) ~> derivedColumn2",
+				"derivedColumn2 alterRow(upsertIf(true())) ~> alterRow1",
+				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          producto_id as string,",
@@ -71,7 +76,8 @@
 				"     deletable:false,",
 				"     insertable:true,",
 				"     updateable:false,",
-				"     upsertable:false,",
+				"     upsertable:true,",
+				"     keys:['producto_id'],",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
