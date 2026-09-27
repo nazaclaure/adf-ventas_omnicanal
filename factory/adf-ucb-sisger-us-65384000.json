@@ -1,0 +1,10 @@
+{
+	"name": "adf-ucb-sisger-us-65384000",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "canadacentral"
+}
